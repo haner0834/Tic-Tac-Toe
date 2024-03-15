@@ -42,15 +42,6 @@ struct Tic_Tac_Toe: View {
                 }
                 .padding()
                 
-//                ModePicker(selection: $viewModel.isPlayWithAI)
-//                    .onChange(of: viewModel.isPlayWithAI) { newValue in
-//                        viewModel.changeMode()
-//                    }
-                
-//                ReStartButton(color: isLight ? .white: .black) {
-//                    viewModel.resetGame()
-//                }
-                
                 LazyVGrid(columns: viewModel.columns, spacing: 8) {
                     ForEach(0..<9) { i in
                         ZStack {

@@ -22,25 +22,24 @@ final class TicTacToeViewModel: ObservableObject {
     @Published var oScore = 0
     
     func processPlayerMove(for position: Int) {
-        var checker = MoveChecker(moves: moves)
+        let checker = MoveChecker()
         if isPlayWithAI {
             // human's turn
-            var checker = MoveChecker(moves: moves)
-            if checker.isSquareOccupied(forIndex: position) { return }
+            let checker = MoveChecker()
+            if checker.isSquareOccupied(in: moves, forIndex: position) { return }
             // return is means the code is just return, didn't do anything
             
             moves[position] = Move(player: .human, boardIndex: position)
-            checker.moves = moves
             
     //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [self] in
                 // check for win or draw
-                if checker.checkWin(for: .human) {
+                if checker.checkWin(in: moves, for: .human) {
                     xScore += 1
                     alertItem = AlertContext.humanWin
                     return
                 }
                 
-                if checker.checkDraw() {
+                if checker.checkDraw(in: moves) {
                     alertItem = AlertContext.drawWithComputer
                     return
                 }
@@ -52,19 +51,20 @@ final class TicTacToeViewModel: ObservableObject {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) { [self] in
     //            let computerPosition = AIComputerPlayer(in: moves)
-                let computerPosition = AIPlayer.main.move(in: moves)
+//                let computerPosition = AIPlayer.main.move(in: moves)
+                let computerPosition = AIPlayer.main.smarterMove(in: moves)
                 
                 moves[computerPosition] = Move(player: .computer, boardIndex: computerPosition)
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
-                    let checker = MoveChecker(moves: moves)
-                    if checker.checkWin(for: .computer) {
+                    let checker = MoveChecker()
+                    if checker.checkWin(in: moves, for: .computer) {
                         oScore += 1
                         alertItem = AlertContext.computerWin
                         return
                     }
                     
-                    if checker.checkDraw() {
+                    if checker.checkDraw(in: moves) {
                         alertItem = AlertContext.drawWithComputer
                         return
                     }
@@ -74,12 +74,11 @@ final class TicTacToeViewModel: ObservableObject {
                 }
             }
         }else {
-            if checker.isSquareOccupied(forIndex: position) { return }
+            if checker.isSquareOccupied(in: moves, forIndex: position) { return }
             
             moves[position] = Move(player: isHumanTurn ? .human: .computer, boardIndex: position)
-            checker.moves = moves
             
-            if checker.checkWin(for: isHumanTurn ? .human: .computer) {
+            if checker.checkWin(in: moves, for: isHumanTurn ? .human: .computer) {
                 if isHumanTurn {
                     xScore += 1
                     alertItem = AlertContext.XWin
@@ -90,7 +89,7 @@ final class TicTacToeViewModel: ObservableObject {
                 return
             }
             
-            if checker.checkDraw() {
+            if checker.checkDraw(in: moves) {
                 alertItem = AlertContext.drawWithFriend
                 return
             }
@@ -100,13 +99,12 @@ final class TicTacToeViewModel: ObservableObject {
     }
     
     private func processMoveWithFriend(to position: Int) {
-        var checker = MoveChecker(moves: moves)
-        if checker.isSquareOccupied(forIndex: position) { return }
+        var checker = MoveChecker()
+        if checker.isSquareOccupied(in: moves, forIndex: position) { return }
         
         moves[position] = Move(player: isHumanTurn ? .human: .computer, boardIndex: position)
-        checker = MoveChecker(moves: moves)
         
-        if checker.checkWin(for: isHumanTurn ? .human: .computer) {
+        if checker.checkWin(in: moves, for: isHumanTurn ? .human: .computer) {
             if isHumanTurn {
                 xScore += 1
                 alertItem = AlertContext.XWin
@@ -117,7 +115,7 @@ final class TicTacToeViewModel: ObservableObject {
             return
         }
         
-        if checker.checkDraw() {
+        if checker.checkDraw(in: moves) {
             alertItem = AlertContext.drawWithFriend
             return
         }
@@ -126,22 +124,21 @@ final class TicTacToeViewModel: ObservableObject {
     }
     
     private func processHumanMove(to position: Int) {
-        var checker = MoveChecker(moves: moves)
-        if checker.isSquareOccupied(forIndex: position) { return }
+        var checker = MoveChecker()
+        if checker.isSquareOccupied(in: moves, forIndex: position) { return }
         // return is means the code is just return, didn't do anything
         
         moves[position] = Move(player: .human, boardIndex: position)
-        checker.moves = moves
         
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [self] in
             // check for win or draw
-            if checker.checkWin(for: .human) {
+            if checker.checkWin(in: moves, for: .human) {
                 xScore += 1
                 alertItem = AlertContext.humanWin
                 return
             }
             
-            if checker.checkDraw() {
+            if checker.checkDraw(in: moves) {
                 alertItem = AlertContext.drawWithComputer
                 return
             }
@@ -159,14 +156,14 @@ final class TicTacToeViewModel: ObservableObject {
             moves[computerPosition] = Move(player: .computer, boardIndex: computerPosition)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
-                let checker = MoveChecker(moves: moves)
-                if checker.checkWin(for: .computer) {
+                let checker = MoveChecker()
+                if checker.checkWin(in: moves, for: .computer) {
                     oScore += 1
                     alertItem = AlertContext.computerWin
                     return
                 }
                 
-                if checker.checkDraw() {
+                if checker.checkDraw(in: moves) {
                     alertItem = AlertContext.drawWithComputer
                     return
                 }
@@ -209,17 +206,17 @@ final class TicTacToeViewModel: ObservableObject {
     }
     
     func checkWinOrDraw(moves: [Move?]) {
-        let checker = MoveChecker(moves: moves)
-        if checker.checkWin(for: .human) {
+        let checker = MoveChecker()
+        if checker.checkWin(in: moves, for: .human) {
             xScore += 1
             alertItem = AlertContext.humanWin
             return
-        }else if checker.checkWin(for: .computer) {
+        }else if checker.checkWin(in: moves, for: .computer) {
             oScore += 1
             alertItem = AlertContext.computerWin
             return
         }
-        if checker.checkDraw() {
+        if checker.checkDraw(in: moves) {
             alertItem = AlertContext.drawWithComputer
         }
     }
