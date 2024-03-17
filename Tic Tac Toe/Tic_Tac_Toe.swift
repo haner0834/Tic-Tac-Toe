@@ -42,6 +42,19 @@ struct Tic_Tac_Toe: View {
                 }
                 .padding()
                 
+                Button("click") {
+                    print(" ")
+//                    for i in 0..<9 {
+//                        let move = Move(player: .computer, boardIndex: 8)
+//                        let isNearByItem = move.isNearBy(i, length: 3)
+//                        print("index: \(i), is near by 8: \(isNearByItem)")
+//                    }
+                    let i = 4
+                    let move = Move(player: .computer, boardIndex: 8)
+                    let isNearByItem = move.isNearBy(i, length: 3)
+                    print("index: \(i), is near by 8: \(isNearByItem)")
+                }
+                
                 LazyVGrid(columns: viewModel.columns, spacing: 8) {
                     ForEach(0..<9) { i in
                         ZStack {

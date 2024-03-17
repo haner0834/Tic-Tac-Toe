@@ -53,6 +53,7 @@ final class TicTacToeViewModel: ObservableObject {
     //            let computerPosition = AIComputerPlayer(in: moves)
 //                let computerPosition = AIPlayer.main.move(in: moves)
                 let computerPosition = AIPlayer.main.smarterMove(in: moves)
+//                let computerPosition = AIPlayer.main.muchSmarterMove(in: moves)
                 
                 moves[computerPosition] = Move(player: .computer, boardIndex: computerPosition)
                 

@@ -105,24 +105,28 @@ class AIPlayer {
     ///
     ///_THESE RULE IS ABOUT THE SECOND TRAVERSING THE ARRAY OF INPUT AFTER ADDING THE SQUARE WE EXPECT AI MOVE TO_
     ///
-    ///## These are pattern of first traversing input:
-    ///  If AI can win deractly in this square, return the square.
+    ///## These are rule of first traversing input:
+    /// - if this move can win directly: +4
+    /// - if this move can block human: +2
     ///
-    ///  If AI can't win, block human.
+    ///_These also scoring the square and not return square directly_
     ///
-    ///  If AI can't block human, take the middle square
+    /// And after scoring all the square, I gave each square a weight
     ///
+    /// ## These are the weight of each square:
+    /// - The square on the corner: 0.7
+    /// - The middle square: 1.0
+    /// - The square on the side of board and not on the corner: 0.65
     ///
-    /// At the same time(loop), the function will scoring each square
-    ///
-    /// After running these, find the highest score and return it
+    /// And mutiply each score by their weight, find the highest score and return it
     ///
     /// If there's more than one highest score(same high score), return random of it
     ///
     /// - Complexity: O(n^2 + 3n), when n is length of array
     func smarterMove(in moves: [Move?]) -> Int {
         let checker = MoveChecker()
-        var scores = Array(repeating: 0, count: moves.count)
+        var scores = Array(repeating: 0.0, count: moves.count)
+        let weighteds = [0.7, 0.65, 0.7, 0.65, 1, 0.65, 0.7, 0.65, 0.7]
         
         for i in 0..<moves.count {
             let isSquareOccupied = checker.isSquareOccupied(in: moves, forIndex: i)
@@ -130,18 +134,14 @@ class AIPlayer {
                 //we expect AI move to this square
                 var expectMove = moves
                 
-                //if AI can win deractly, return this square
                 expectMove[i] = Move(player: .computer, boardIndex: i)
                 if checker.checkWin(in: expectMove, for: .computer) {
-                    print("AI can win, so select this square")
-                    return i
+                    scores[i] += 4
                 }
                 
-                //if AI can block, return this square
                 expectMove[i] = Move(player: .human, boardIndex: i)
                 if checker.checkWin(in: expectMove, for: .human) {
-                    print("Human can win, so select this square")
-                    return i
+                    scores[i] += 2
                 }
                 //reset the expect of AI moves, player is .computer instead .human
                 expectMove[i] = Move(player: .computer, boardIndex: i)
@@ -156,18 +156,18 @@ class AIPlayer {
                         expect[i] = Move(player: .computer, boardIndex: i)
                         expect[j] = Move(player: .computer, boardIndex: j)
                         if checker.checkWin(in: expect, for: .computer) {
-                            let winTimesInSameMove = checker.checkWinTimesInSameMove(in: expect, for: .computer)
-                            scores[i] += 2 * winTimesInSameMove
-                            print("this move will create an opportunity of computer, so score +\(scores[i])(in\(i), \(j))")
+                            let weighted = weighteds[i]
+                            scores[i] += 2 * weighted
+                            print("this move will create an opportunity of computer, so score of the square is \(scores[i])(in\(i), \(j))")
                         }
                         
                         //check human can win in this move
                         expect[i] = Move(player: .human, boardIndex: i)
                         expect[j] = Move(player: .human, boardIndex: j)
                         if checker.checkWin(in: expect, for: .human) {
-                            let winTimesInSameMove = checker.checkWinTimesInSameMove(in: expect, for: .human)
-                            scores[i] += 1 * winTimesInSameMove
-                            print("this move probably block human, so score +\(scores[i])(in\(i), \(j))")
+                            let weighted = weighteds[i]
+                            scores[i] += 1 * weighted
+                            print("this move probably block human, so score of the square is \(scores[i])(in\(i), \(j))")
                         }
                     }
                 }
@@ -175,10 +175,10 @@ class AIPlayer {
         }
         //if the middle square hasn't be occupied, return it
         print("scores : \(scores)")
-        if !checker.isSquareOccupied(in: moves, forIndex: 4) {
-            print("bcuz middle square aren't occupied")
-            return 4
-        }
+//        if !checker.isSquareOccupied(in: moves, forIndex: 4) {
+//            print("bcuz middle square aren't occupied")
+//            return 4
+//        }
         
         //get highest score we just scored of each square
         var max = scores[0]
@@ -192,7 +192,7 @@ class AIPlayer {
         print("max is \(max), count is \(count)")
         
         //check whether there's more than one highest score
-        var duplicateItem = [Int]()
+        var duplicateItem = [Double]()
         var duplicateItemCount = [Int]()
         for (i, item) in scores.enumerated() {
             if item == max {
@@ -214,5 +214,74 @@ class AIPlayer {
         print(" ")
         return randomIndex
     }
+    
+    ///- Authors: Idea by Chi
+    ///## What he said:
+    ///The way to block human is return a board index near by the index of square which human just moved to
+    ///
+    ///And he said : "The first move is most important, if you take a wrong square in first move, you're over"
+    ///
+    ///so I decide to record his idea and try to create an AI computer player which is design by Chi
+    ///
+    ///**_The biggest problem is that how to move as well as he said, return a board index which is near by human just moved to_**
+    ///
+    ///For example, if human move to square whose `boardIndex` is 0, and AI will return random of 1, 3, 4, because those number is near by the square that human moved to
+    func muchSmarterMove(in moves: [Move?]) -> Int {
+        //first move(and first move will always human)
+        guard moves.compactMap({ $0 }).count == 1 else {
+            print(moves.compactMap({ $0 }).count != 1)
+            print(moves.compactMap({ $0 }).count)
+            return smarterMove(in: moves)
+        }
+        let movesWithoutNil = moves.compactMap { $0 }
+        print(moves.compactMap({ $0 }).count)
+        // The logic below is build on there's only one move(and that's definitely human)
+//        guard let firstMove = movesWithoutNil.first else { return smarterMove(in: moves) }
+        let firstMove = movesWithoutNil[0]
+        
+        var nearByHumanMoved = [Int]()
+        for i in 0..<moves.count {
+//            let length = sqrt(Double(firstMove.boardIndex))
+            let length = 3.0
+            if length == Double(Int(length)) {//length is an interger
+                if firstMove.isNearBy(i, length: length) {
+                    nearByHumanMoved.append(i)
+                }
+            }
+        }
+        print("The square item near by human moved is: \(nearByHumanMoved)")
+        let count = nearByHumanMoved.count
+        
+        return nearByHumanMoved[Int.random(in: 0..<count)]
+    }
 }
 
+extension Move {
+    /// Check the move is near by the input value or not
+    /// - Parameters:
+    ///   - index: The comporation index of you want to check
+    ///   - length: The length of your game status`([Moves?])`
+    /// - Returns: return true if it's near by the comporation index and it doesn't out of range of game status array
+    func isNearBy<Number: Numeric>(_ index: Int, length: Number) -> Bool {
+        guard let lengthOfMoves = length as? Int else { return false }
+        let rangeOfIndex = (index - lengthOfMoves - 1)..<(index + lengthOfMoves + 1)
+        let movesRange = 0..<9
+        
+        return rangeOfIndex ~= self.boardIndex && movesRange ~= self.boardIndex && self.boardIndex != index
+    }
+}
+
+extension Double {
+    func rounding(toDecimal decimal: Int) -> Double {
+        let numberOfDigist: Double = 10.0 ^ decimal
+        return (self * numberOfDigist).rounded(.toNearestOrAwayFromZero)
+    }
+    
+    static func ^(lhs: Double, rhs: Int) -> Double {
+        return pow(lhs, Double(rhs))
+    }
+    
+    static func ^=(lhs: inout Double, rhs: Int) {
+        lhs = pow(lhs, Double(rhs))
+    }
+}
