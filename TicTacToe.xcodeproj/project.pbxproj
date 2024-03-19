@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		423861EB2BA730D200CB5044 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 423861EA2BA730D200CB5044 /* Launch Screen.storyboard */; };
+		423861ED2BA7321F00CB5044 /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 423861EC2BA7321F00CB5044 /* LaunchScreen.swift */; };
 		424FF8AE2AA8C9AE00BAF1E0 /* Tic_Tac_ToeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424FF8AD2AA8C9AE00BAF1E0 /* Tic_Tac_ToeApp.swift */; };
 		424FF8B02AA8C9AE00BAF1E0 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424FF8AF2AA8C9AE00BAF1E0 /* Persistence.swift */; };
 		424FF8B32AA8C9AE00BAF1E0 /* Tic_Tac_Toe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 424FF8B12AA8C9AE00BAF1E0 /* Tic_Tac_Toe.xcdatamodeld */; };
@@ -46,6 +48,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		423861EA2BA730D200CB5044 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		423861EC2BA7321F00CB5044 /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		424FF8AA2AA8C9AE00BAF1E0 /* TicTacToe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicTacToe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		424FF8AD2AA8C9AE00BAF1E0 /* Tic_Tac_ToeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tic_Tac_ToeApp.swift; sourceTree = "<group>"; };
 		424FF8AF2AA8C9AE00BAF1E0 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
@@ -120,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				424FF8AD2AA8C9AE00BAF1E0 /* Tic_Tac_ToeApp.swift */,
+				423861EC2BA7321F00CB5044 /* LaunchScreen.swift */,
 				424FF8AF2AA8C9AE00BAF1E0 /* Persistence.swift */,
 				424FF8B42AA8C9AE00BAF1E0 /* ContentView.swift */,
 				424FF8DD2AA8CA0100BAF1E0 /* Tic_Tac_Toe.swift */,
@@ -130,6 +135,7 @@
 				42D43A412B9757F300111F7F /* MoveChecker.swift */,
 				42D43A432B97581000111F7F /* AIPlayer.swift */,
 				424FF8DF2AAB6B4500BAF1E0 /* Alerts.swift */,
+				423861EA2BA730D200CB5044 /* Launch Screen.storyboard */,
 				424FF8B62AA8C9AF00BAF1E0 /* Assets.xcassets */,
 				424FF8B82AA8C9AF00BAF1E0 /* Tic_Tac_Toe.entitlements */,
 				424FF8B12AA8C9AE00BAF1E0 /* Tic_Tac_Toe.xcdatamodeld */,
@@ -269,6 +275,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				423861EB2BA730D200CB5044 /* Launch Screen.storyboard in Resources */,
 				424FF8BB2AA8C9AF00BAF1E0 /* Preview Assets.xcassets in Resources */,
 				424FF8B72AA8C9AF00BAF1E0 /* Assets.xcassets in Resources */,
 			);
@@ -295,6 +302,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				423861ED2BA7321F00CB5044 /* LaunchScreen.swift in Sources */,
 				424FF8B32AA8C9AE00BAF1E0 /* Tic_Tac_Toe.xcdatamodeld in Sources */,
 				42D43A3C2B942A3E00111F7F /* TicTacToeView.swift in Sources */,
 				424FF8AE2AA8C9AE00BAF1E0 /* Tic_Tac_ToeApp.swift in Sources */,
@@ -473,10 +481,11 @@
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -511,10 +520,11 @@
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";

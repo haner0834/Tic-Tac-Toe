@@ -10,12 +10,25 @@ import SwiftUI
 @main
 struct Tic_Tac_ToeApp: App {
     let persistenceController = PersistenceController.shared
-
+    @State private var isShowLaunchScreen = true
     var body: some Scene {
         WindowGroup {
 //            ContentView()
 //                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-            Tic_Tac_Toe()
+            ZStack {
+                Tic_Tac_Toe()
+                if isShowLaunchScreen {
+                    LaunchScreen()
+                        .transition(.opacity)
+                }
+            }
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    withAnimation(.easeInOut) {
+                        isShowLaunchScreen = false
+                    }
+                }
+            }
         }
     }
 }

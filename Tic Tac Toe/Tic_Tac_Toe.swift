@@ -32,33 +32,20 @@ struct Tic_Tac_Toe: View {
                 HStack {
                     ScoreShower(score: viewModel.xScore,
                                 isShowIndicator: viewModel.isHumanTurn,
-                                backgroundColor: isLight ? .white: .black, 
+                                backgroundColor: Color("Background"),
                                 systemImage: "xmark")
                     
                     ScoreShower(score: viewModel.oScore,
                                 isShowIndicator: !viewModel.isHumanTurn,
-                                backgroundColor: isLight ? .white: .black, 
+                                backgroundColor: Color("Background"), 
                                 systemImage: "circle")
                 }
                 .padding()
                 
-                Button("click") {
-                    print(" ")
-//                    for i in 0..<9 {
-//                        let move = Move(player: .computer, boardIndex: 8)
-//                        let isNearByItem = move.isNearBy(i, length: 3)
-//                        print("index: \(i), is near by 8: \(isNearByItem)")
-//                    }
-                    let i = 4
-                    let move = Move(player: .computer, boardIndex: 8)
-                    let isNearByItem = move.isNearBy(i, length: 3)
-                    print("index: \(i), is near by 8: \(isNearByItem)")
-                }
-                
                 LazyVGrid(columns: viewModel.columns, spacing: 8) {
                     ForEach(0..<9) { i in
                         ZStack {
-                            TapSquare(color: isLight ? .white: .black, proxy: geometry)
+                            TapSquare(color: Color("Background"), proxy: geometry)
                             
                             if let moves = viewModel.moves[i] {
                                 PlayerIndicatorWithAnimation(player: moves.player)
@@ -88,6 +75,7 @@ struct Tic_Tac_Toe: View {
                       dismissButton: .default($0.buttonTitle, action: viewModel.resetGame))
             })
             .animation(.easeInOut(duration: 0.2), value: viewModel.isHumanTurn)
+            .background(Color("Background"))
         }
     }
 }
