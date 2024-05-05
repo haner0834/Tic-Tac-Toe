@@ -10,15 +10,15 @@ This function returns the AI computer's next move for a tic tac toe game.
 
 The function calculates scores for each available square based on certain rules and weights. It then selects the square with the highest score and returns its item count.
 
-### Scoring Rules
-
-- If the move can create an opportunity to win: +2
-- If the move can block the human player: +1
-
 ### Scoring Rules (First Traversal)
 
 - If the move can lead to a direct win: +4
 - If the move can block the human player: +2
+
+### Scoring Rules(Second Traversal)
+
+- If the move can create an opportunity to win: +2
+- If the move can block the human player: +1
 
 ### Weighting
 
@@ -31,10 +31,14 @@ The scores are multiplied by their respective weights, and the square with the h
 
 ### Complexity
 
-O(n^2 + 3n), where n is the length of the array.
+O(n^2), where n is the length of the array.
 
 ### Usage
 
 ```swift
 // Example usage
-let nextMove = getNextMove(moves: [...])
+let aiPlayer = AIPlayer()
+let computerPosition = aiPlayer.smarterMove(in: […])
+//or
+let computerPosition2 = AIPlayer.main.smarterMove(in: […])
+```
